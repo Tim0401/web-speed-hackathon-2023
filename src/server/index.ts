@@ -34,7 +34,7 @@ async function init(): Promise<void> {
   app.use(compress());
 
   app.use(async (ctx, next) => {
-    ctx.set('Cache-Control', 'no-store');
+    ctx.set('Cache-Control', 'max-age=604800, must-revalidate');
     await next();
   });
 
