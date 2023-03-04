@@ -12,13 +12,13 @@ COPY public/ /app/public/
 COPY tools/ /app/tools/
 COPY src/ /app/src/
 RUN pnpm install
-RUN pnpm build
+RUN pnpm build:prod
 
 ########################################################################
 
 FROM node:18.13.0-bullseye-slim
 ENV TZ Asia/Tokyo
-ENV NODE_ENV development
+ENV NODE_ENV production
 
 COPY --from=build /usr/bin/dumb-init /usr/bin/dumb-init
 COPY --from=build /usr/bin/sqlite3 /usr/bin/sqlite3

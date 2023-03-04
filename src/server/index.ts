@@ -4,6 +4,7 @@ import { koaMiddleware } from '@as-integrations/koa';
 import gracefulShutdown from 'http-graceful-shutdown';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
+import compress from 'koa-compress';
 import logger from 'koa-logger';
 import route from 'koa-route';
 import send from 'koa-send';
@@ -15,6 +16,7 @@ import { dataSource } from './data_source';
 import { initializeApolloServer } from './graphql';
 import { initializeDatabase } from './utils/initialize_database';
 import { rootResolve } from './utils/root_resolve';
+
 
 const PORT = Number(process.env.PORT ?? 8080);
 
@@ -29,6 +31,7 @@ async function init(): Promise<void> {
   app.use(logger());
   app.use(bodyParser());
   app.use(session({}, app));
+  app.use(compress());
 
   app.use(async (ctx, next) => {
     ctx.set('Cache-Control', 'no-store');
